@@ -18,7 +18,7 @@ module Fritzbox
           xml = nori.parse(response.body)
           Array.wrap(types.map { |type| xml.dig('devicelist', type) }.flatten).compact.map do |data|
             klass = Actor.descendants.find { |k| k.match?(data) }
-            self.in?([klass, Actor]) ? klass.new_from_api(data) : nil
+            self.in?([klass, Actor]) && klass ? klass.new_from_api(data) : nil
           end.compact
         end
 
